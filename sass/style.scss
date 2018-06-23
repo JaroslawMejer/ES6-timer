@@ -1,0 +1,38 @@
+*{
+	padding: 0;
+	margin: 0;
+	font-family: 'Exo', sans-serif;
+}
+
+.container{
+	width: 900px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.controls{
+		&:first-child{
+			margin-top: 4em;
+		}
+		width: 40%;
+		display: flex;
+		justify-content: space-between;
+		
+		font-size: 3em;
+		text-transform: uppercase;
+		.button{
+			text-decoration: none;
+			color: black;
+			&:hover{
+				color: blue;
+			}
+		}
+	}
+	.stopwatch{
+		font-size: 3em;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+}
