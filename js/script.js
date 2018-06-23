@@ -84,24 +84,21 @@ resetButton.addEventListener('click', () => stopwatch.reset());
 
 let saveButton = document.getElementById('save');
 
-saveButton.addEventListener('click', () => SavedTime)
+saveButton.addEventListener('click', () => SavingTimes());
 
-var SavedTime = React.createClass({
-	render: function() {
-		return (
-			console.log('Test'),
-			React.createElement('li', {className: 'savedtime'}, stopwatch.save())
-		)
-	}
+const savedtimes = [];
+
+function SavingTimes (){
+    console.log('Add string complete');
+    savedtimes.push(stopwatch.save());
+};
+
+const SavedTimesList = React.createClass({
+    render: function() {
+        return React.createElement('li', {className: 'child'}, savedtimes)
+    },
 });
 
-var SavedTimes = React.createClass({
-	render: function() {
-		return React.createElement('ul', {className: 'savedtimes'}, SavedTime)
-	}
-})
 
-
-
-var app = React.createElement(SavedTimes);
-ReactDOM.render(app, document.getElementById('results'))
+var app = React.createElement(SavedTimesList);
+ReactDOM.render(app, document.getElementById('results'));
