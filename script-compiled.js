@@ -85,18 +85,16 @@ let saveButton = document.getElementById('save');
 
 saveButton.addEventListener('click', () => SavingTimes());
 
-const savedtimes = [];
-
 function SavingTimes() {
-    console.log('Add string complete');
-    savedtimes.push(stopwatch.save());
+    var li = document.createElement('li');
+    li.innerHTML = stopwatch.save();
+    document.getElementById('results').appendChild(li);
 };
 
-const SavedTimesList = React.createClass({
-    render: function () {
-        return React.createElement('li', { className: 'child' }, savedtimes);
-    }
-});
+let deleteButton = document.getElementById('delete');
 
-var app = React.createElement(SavedTimesList);
-ReactDOM.render(app, document.getElementById('results'));
+deleteButton.addEventListener('click', () => DeleteTimes());
+
+function DeleteTimes() {
+    document.getElementById('results').innerHTML = '';
+}
