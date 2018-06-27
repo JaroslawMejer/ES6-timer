@@ -3,10 +3,7 @@ class Stopwatch extends React.Component {
         super(props)
         this.state = {
             running: false,
-            savedTimes:{
-                id:[],
-                time:[]
-            }
+            savedTimes:[]
         }
         this.reset();
         this.render(this.times);
@@ -17,7 +14,8 @@ class Stopwatch extends React.Component {
         this.calculate = this.calculate.bind(this)
         this.stop = this.stop.bind(this)
         this.save = this.save.bind(this)
-        this.SavingTimes = this.SavingTimes.bind(this)
+        this.savingTimes = this.savingTimes.bind(this)
+        this.deleteTimes = this.deleteTimes.bind(this)
     }
     reset() {
     	this.times = {
@@ -43,12 +41,14 @@ class Stopwatch extends React.Component {
                 <nav className='controls'>
                     <a href='#' className='button' id='reset' onClick={this.reset}>Reset</a>
                     <span>||</span>
-                    <a href='#' className='button' id='save' onClick={this.SavingTimes}>Zapisz</a>
+                    <a href='#' className='button' id='save' onClick={this.savingTimes}>Zapisz</a>
                 </nav>
                 <nav className='controls'>
-                    <a href='#' className='button' id='delete'>Usuń czasy</a>
+                    <a href='#' className='button' id='delete' onClick={this.deleteTimes}>Usuń czasy</a>
                 </nav>
-                <ul id='results'></ul>
+                <ul id='results'>
+                    <li>{this.state.savedTimes}</li>
+                </ul>
             </div>
         )
     }
@@ -97,22 +97,21 @@ class Stopwatch extends React.Component {
         }
         return result;  
     }
-    SavingTimes(){
-        //https://stackoverflow.com/questions/37435334/correct-way-to-push-into-state-array/37435577
-        const li = <li>{this.format(this.times)}</li>
-        ReactDOM.render(li, document.getElementById('results'))
+    savingTimes(){
+        this.setState({ savedTimes: this.state.savedTimes.concat(' - ' +this.format(this.times))})
+        console.log(this.state.savedTimes)
     }
+    deleteTimes(){
+        this.setState({
+            savedTimes:[]
+        })
+        console.log(this.state.savedTimes)
+    }
+
 }
 
 var app = React.createElement(Stopwatch);
 ReactDOM.render(app, document.getElementById('container'));
 
-let deleteButton = document.getElementById('delete');
-
-deleteButton.addEventListener('click', () => DeleteTimes())
-
-function DeleteTimes (){
-    document.getElementById('results').innerHTML = '';
-}
 
 

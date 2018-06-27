@@ -18,10 +18,7 @@ var Stopwatch = function (_React$Component) {
 
         _this.state = {
             running: false,
-            savedTimes: {
-                id: [],
-                time: []
-            }
+            savedTimes: []
         };
         _this.reset();
         _this.render(_this.times);
@@ -32,7 +29,8 @@ var Stopwatch = function (_React$Component) {
         _this.calculate = _this.calculate.bind(_this);
         _this.stop = _this.stop.bind(_this);
         _this.save = _this.save.bind(_this);
-        _this.SavingTimes = _this.SavingTimes.bind(_this);
+        _this.savingTimes = _this.savingTimes.bind(_this);
+        _this.deleteTimes = _this.deleteTimes.bind(_this);
         return _this;
     }
 
@@ -93,7 +91,7 @@ var Stopwatch = function (_React$Component) {
                     ),
                     React.createElement(
                         'a',
-                        { href: '#', className: 'button', id: 'save', onClick: this.SavingTimes },
+                        { href: '#', className: 'button', id: 'save', onClick: this.savingTimes },
                         'Zapisz'
                     )
                 ),
@@ -102,11 +100,19 @@ var Stopwatch = function (_React$Component) {
                     { className: 'controls' },
                     React.createElement(
                         'a',
-                        { href: '#', className: 'button', id: 'delete' },
+                        { href: '#', className: 'button', id: 'delete', onClick: this.deleteTimes },
                         'Usu\u0144 czasy'
                     )
                 ),
-                React.createElement('ul', { id: 'results' })
+                React.createElement(
+                    'ul',
+                    { id: 'results' },
+                    React.createElement(
+                        'li',
+                        null,
+                        this.state.savedTimes
+                    )
+                )
             );
         }
     }, {
@@ -168,15 +174,18 @@ var Stopwatch = function (_React$Component) {
             return result;
         }
     }, {
-        key: 'SavingTimes',
-        value: function SavingTimes() {
-            //https://stackoverflow.com/questions/37435334/correct-way-to-push-into-state-array/37435577
-            var li = React.createElement(
-                'li',
-                null,
-                this.format(this.times)
-            );
-            ReactDOM.render(li, document.getElementById('results'));
+        key: 'savingTimes',
+        value: function savingTimes() {
+            this.setState({ savedTimes: this.state.savedTimes.concat(' - ' + this.format(this.times)) });
+            console.log(this.state.savedTimes);
+        }
+    }, {
+        key: 'deleteTimes',
+        value: function deleteTimes() {
+            this.setState({
+                savedTimes: []
+            });
+            console.log(this.state.savedTimes);
         }
     }]);
 
@@ -185,13 +194,3 @@ var Stopwatch = function (_React$Component) {
 
 var app = React.createElement(Stopwatch);
 ReactDOM.render(app, document.getElementById('container'));
-
-var deleteButton = document.getElementById('delete');
-
-deleteButton.addEventListener('click', function () {
-    return DeleteTimes();
-});
-
-function DeleteTimes() {
-    document.getElementById('results').innerHTML = '';
-}
