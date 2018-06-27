@@ -10,4 +10,4 @@
 
 .container .controls .button:hover { color: blue; }
 
-.container .stopwatch { font-size: 3em; width: 100%; display: -ms-flexbox; display: flex; -ms-flex-pack: center; justify-content: center; }
+.container #stopwatch { font-size: 3em; width: 100%; display: -ms-flexbox; display: flex; -ms-flex-pack: center; justify-content: center; }

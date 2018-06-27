@@ -1,41 +1,74 @@
-class Stopwatch {
-    constructor(display) {
-        this.running = false;
-        this.display = display;
+class Stopwatch extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            running: false,
+            savedTimes:{
+                id:[],
+                time:[]
+            }
+        }
         this.reset();
-        this.print(this.times);
+        this.render(this.times);
+        this.start = this.start.bind(this)
+        this.reset = this.reset.bind(this)
+        this.format = this.format.bind(this)
+        this.step = this.step.bind(this)
+        this.calculate = this.calculate.bind(this)
+        this.stop = this.stop.bind(this)
+        this.save = this.save.bind(this)
+        this.SavingTimes = this.SavingTimes.bind(this)
     }
-
     reset() {
     	this.times = {
     		minutes: 0,
     		seconds: 0,
     		miliseconds: 0
     	}
-    	if(!this.runnig){
-    		this.print()
+    	if(!this.running){
+    		this.setState({
+
+            })
     	}
     }
-
-    print() {
-    	this.display.innerText = this.format(this.times);
+    render() {
+    	return (
+            <div className='container'>
+                <nav className='controls'>
+                    <a href='#' className='button' id='start' onClick={this.start}>Start</a>
+                    <span>||</span>
+                    <a href='#' className='button' id='stop' onClick={this.stop}>Stop</a>
+                </nav>
+                <div id='stopwatch'>{this.format(this.times)}</div>
+                <nav className='controls'>
+                    <a href='#' className='button' id='reset' onClick={this.reset}>Reset</a>
+                    <span>||</span>
+                    <a href='#' className='button' id='save' onClick={this.SavingTimes}>Zapisz</a>
+                </nav>
+                <nav className='controls'>
+                    <a href='#' className='button' id='delete'>Usuń czasy</a>
+                </nav>
+                <ul id='results'></ul>
+            </div>
+        )
     }
-
     format(times) {
-    	return `${pad0(times.minutes)}:${pad0(times.seconds)}:${pad0(Math.floor(times.miliseconds))}`
+    	return `${this.pad0(times.minutes)}:${this.pad0(times.seconds)}:${this.pad0(Math.floor(times.miliseconds))}`
     }
-
     start() {
-    	if(!this.running) {
-    		this.running = true;
+    	if(!this.state.running) {
+    		this.state.running = true;
+            console.log(this.state.running.valueOf())
     		this.watch = setInterval(() => this.step(), 10);
     	}
     }
 
     step() {
-    	if (!this.running) return;
+    	if (!this.state.running) return;
     	this.calculate();
-    	this.print();
+    	this.setState({
+
+        })
     }
 
     calculate() {
@@ -51,46 +84,28 @@ class Stopwatch {
 	}
 
 	stop() {
-		this.running = false;
+		this.state.running = false;
 		clearInterval(this.watch);
 	}
 	save() {
 		return this.format(this.times);
 	}
+    pad0(value){
+        let result = value.toString();
+        if (result.length < 2) {
+            result = '0' + result;
+        }
+        return result;  
+    }
+    SavingTimes(){
+        //https://stackoverflow.com/questions/37435334/correct-way-to-push-into-state-array/37435577
+        const li = <li>{this.format(this.times)}</li>
+        ReactDOM.render(li, document.getElementById('results'))
+    }
 }
 
-function pad0(value) {
-	let result = value.toString();
-	if (result.length < 2) {
-		result = '0' + result;
-	}
-	return result;
-}
-
-const stopwatch = new Stopwatch(
-document.querySelector('.stopwatch'));
-
-let startButton = document.getElementById('start');
-
-startButton.addEventListener('click', () => stopwatch.start());
-
-let stopButton = document.getElementById('stop');
-
-stopButton.addEventListener('click', () => stopwatch.stop());
-
-let resetButton = document.getElementById('reset');
-
-resetButton.addEventListener('click', () => stopwatch.reset());
-
-let saveButton = document.getElementById('save');
-
-saveButton.addEventListener('click', () => SavingTimes());
-
-function SavingTimes (){
-    var li = document.createElement('li');
-    li.innerHTML = stopwatch.save();
-    document.getElementById('results').appendChild(li);
-};
+var app = React.createElement(Stopwatch);
+ReactDOM.render(app, document.getElementById('container'));
 
 let deleteButton = document.getElementById('delete');
 
