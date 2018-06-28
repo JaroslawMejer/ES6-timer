@@ -107,11 +107,13 @@ var Stopwatch = function (_React$Component) {
                 React.createElement(
                     'ul',
                     { id: 'results' },
-                    React.createElement(
-                        'li',
-                        null,
-                        this.state.savedTimes
-                    )
+                    this.state.savedTimes.map(function (i) {
+                        return React.createElement(
+                            'li',
+                            { key: i },
+                            i
+                        );
+                    })
                 )
             );
         }
@@ -176,7 +178,7 @@ var Stopwatch = function (_React$Component) {
     }, {
         key: 'savingTimes',
         value: function savingTimes() {
-            this.setState({ savedTimes: this.state.savedTimes.concat(' - ' + this.format(this.times)) });
+            this.setState({ savedTimes: this.state.savedTimes.concat(this.format(this.times)) });
             console.log(this.state.savedTimes);
         }
     }, {

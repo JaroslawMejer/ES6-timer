@@ -47,7 +47,7 @@ class Stopwatch extends React.Component {
                     <a href='#' className='button' id='delete' onClick={this.deleteTimes}>Usuń czasy</a>
                 </nav>
                 <ul id='results'>
-                    <li>{this.state.savedTimes}</li>
+                    {this.state.savedTimes.map(i =><li key={i}>{i}</li>)}
                 </ul>
             </div>
         )
@@ -98,7 +98,7 @@ class Stopwatch extends React.Component {
         return result;  
     }
     savingTimes(){
-        this.setState({ savedTimes: this.state.savedTimes.concat(' - ' +this.format(this.times))})
+        this.setState({ savedTimes: this.state.savedTimes.concat(this.format(this.times))})
         console.log(this.state.savedTimes)
     }
     deleteTimes(){
